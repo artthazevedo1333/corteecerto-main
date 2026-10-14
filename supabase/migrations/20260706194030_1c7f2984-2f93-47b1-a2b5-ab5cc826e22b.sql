@@ -1,0 +1,8 @@
+
+ALTER TABLE public.profiles
+  ADD COLUMN IF NOT EXISTS language text NOT NULL DEFAULT 'pt',
+  ADD COLUMN IF NOT EXISTS country text NOT NULL DEFAULT 'BR',
+  ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'BRL',
+  ADD COLUMN IF NOT EXISTS timezone text NOT NULL DEFAULT 'America/Sao_Paulo',
+  ADD COLUMN IF NOT EXISTS date_format text NOT NULL DEFAULT 'dd/MM/yyyy',
+  ADD COLUMN IF NOT EXISTS time_format text NOT NULL DEFAULT '24h';

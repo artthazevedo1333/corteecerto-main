@@ -1,0 +1,494 @@
+{
+  "admin": {
+    "audit_log": "Audit log",
+    "customers": "Customers",
+    "licenses": "Licenses",
+    "subtitle": "SaaS administration.",
+    "title": "Master Panel"
+  },
+  "agenda": {
+    "actions": {
+      "cancel": "Cancel",
+      "complete": "Complete",
+      "edit": "Edit",
+      "remove": "Remove",
+      "start": "Start",
+      "whatsapp": "WhatsApp"
+    },
+    "aria": {
+      "current_time": "Current time",
+      "drag_reorder": "Drag to reorder",
+      "next_day": "Next day",
+      "prev_day": "Previous day"
+    },
+    "back_today": "Back to today",
+    "badges": {
+      "new": "New",
+      "next": "Next"
+    },
+    "block": {
+      "break": "Break",
+      "generic": "Blocked",
+      "vacation": "Vacation"
+    },
+    "cancel_dialog": {
+      "back": "Back",
+      "body": "The slot will be marked as cancelled on your schedule.",
+      "confirm": "Cancel slot",
+      "title": "Cancel this slot?"
+    },
+    "cancelled_success": "Appointment cancelled",
+    "client_avulso": "Walk-in client",
+    "create_appointment": "Create appointment",
+    "duration_min": "{{count}} min",
+    "edit_slot": "Edit slot",
+    "empty": "No appointments in this period.",
+    "empty_body": "No appointments for this day.",
+    "empty_title": "Schedule is clear",
+    "load_error": "Failed to load schedule",
+    "month": "Month",
+    "new_appointment": "New appointment",
+    "new_slot": "New slot",
+    "remove_dialog": {
+      "body": "This appointment will be permanently removed from history.",
+      "cancel": "Cancel",
+      "confirm": "Remove",
+      "title": "Remove record?"
+    },
+    "remove_error": "Failed to remove",
+    "removed_success": "Appointment removed",
+    "reorder_error": "Failed to reorder",
+    "reorder_success": "Slots reordered",
+    "service_fallback": "Service",
+    "started_success": "Appointment started",
+    "stats": {
+      "appointments": "Appointments",
+      "client_fallback": "Client",
+      "done_count": "{{count}} completed",
+      "next": "Next",
+      "next_none": "Nothing coming up",
+      "revenue": "Revenue",
+      "revenue_hint": "Today (completed)",
+      "waiting": "Waiting",
+      "waiting_hint": "Confirm clients"
+    },
+    "status": {
+      "cancelled": "Cancelled",
+      "completed": "Completed",
+      "in_progress": "In progress",
+      "scheduled": "Waiting"
+    },
+    "subtitle": "Organize your appointments.",
+    "title": "Schedule",
+    "today": "Today",
+    "today_at": "Today · {{time}}",
+    "update_error": "Failed to update",
+    "week": "Week"
+  },
+  "clients": {
+    "actions": {
+      "edit": "Edit",
+      "remove": "Remove",
+      "schedule": "Schedule",
+      "view": "View details",
+      "whatsapp": "WhatsApp"
+    },
+    "badges": {
+      "inactive": "Inactive",
+      "new": "New",
+      "recurring": "Recurring",
+      "return": "Return"
+    },
+    "clear_filters": "Clear filters",
+    "clear_search": "Clear search",
+    "delete_dialog": {
+      "body": "The client and their history will be permanently removed.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "title": "Delete client?"
+    },
+    "edit_client": "Edit client",
+    "empty": "No clients yet.",
+    "empty_state": {
+      "empty_body": "Add your first client to get started.",
+      "empty_title": "Your base is empty",
+      "no_results_body": "Adjust the search or active filters.",
+      "no_results_title": "No clients found"
+    },
+    "filters": {
+      "active": "Active",
+      "all": "All",
+      "inactive": "Inactive",
+      "new": "New",
+      "recurring": "Recurring",
+      "return": "Return",
+      "vip": "VIP"
+    },
+    "info": {
+      "last": "Last: {{date}}",
+      "never": "Never visited",
+      "next": "Next: {{date}}"
+    },
+    "load_error": "Failed to load clients",
+    "metrics": {
+      "avg_ticket": "Avg ticket",
+      "total_spent": "Total spent",
+      "visits": "Visits"
+    },
+    "new_client": "New client",
+    "register": "Add client",
+    "remove_error": "Failed to remove client",
+    "removed": "Client removed",
+    "search_placeholder": "Search by name or phone...",
+    "stats": {
+      "active": "Active",
+      "active_hint": "Visit in last 60 days",
+      "retention": "Retention",
+      "retention_hint": "{{count}} inactive",
+      "total": "Total",
+      "total_hint": "Registered base",
+      "vip": "VIP",
+      "vip_hint": "Active membership"
+    },
+    "subtitle": "Your relationships in one place.",
+    "title": "Clients"
+  },
+  "common": {
+    "actions": "Actions",
+    "add": "Add",
+    "authenticating": "Authenticating...",
+    "back": "Back",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "error_generic": "Something went wrong. Please try again.",
+    "goodbye": "See you soon!",
+    "loading": "Loading...",
+    "loading_profile": "Loading profile...",
+    "logout_error": "Sign-out failed",
+    "new": "New",
+    "no": "No",
+    "open": "Open",
+    "save": "Save",
+    "save_changes": "Save changes",
+    "saving": "Saving",
+    "search": "Search",
+    "session_expired": "Your session has expired or is invalid.",
+    "view_all": "View all",
+    "yes": "Yes"
+  },
+  "countries": {
+    "BR": "Brazil",
+    "ES": "Spain",
+    "US": "United States"
+  },
+  "dashboard": {
+    "appointments_today": "{{count}} appointment",
+    "appointments_today_other": "{{count}} appointments",
+    "average_ticket": "Average ticket",
+    "avg_ticket_base": "Based on {{count}} visits",
+    "clients_at_risk": "Clients at risk",
+    "clients_at_risk_hint": "Need attention",
+    "greeting": "Welcome",
+    "insights_body": "Corte Certo AI analyzes your flow and suggests concrete actions to boost revenue.",
+    "insights_cta": "See insights",
+    "insights_title": "Grow your barbershop with data",
+    "inventory_alerts": "alert",
+    "inventory_label": "Inventory",
+    "monthly_goal": "Monthly goal",
+    "next_appointment": "Next appointment",
+    "of_goal": "{{current}} of {{goal}}",
+    "reports_link": "Reports",
+    "revenue_today": "Today's revenue",
+    "quick_actions": {
+      "new_appointment": "New appointment",
+      "new_client": "New client",
+      "new_sale": "New sale",
+      "new_service": "New service"
+    },
+    "smart_day": {
+      "actions": {
+        "confirm_clients": "Confirm clients",
+        "open_agenda": "Open schedule",
+        "register_sale": "Register sale",
+        "view_stock": "View stock"
+      },
+      "items": {
+        "appointments": "Appointments",
+        "cancelled_today": "Cancellations today",
+        "expected_revenue": "Day forecast",
+        "low_stock": "Low stock",
+        "next_client": "Next client",
+        "pending_confirmation": "Waiting confirmation"
+      },
+      "messages": {
+        "busy_day": "Today will be busy. Keep the pace!",
+        "cancelled": "Some cancellations today. Consider reopening times.",
+        "empty_day": "No appointments today. A good moment to promote open slots.",
+        "full_day": "Your day is almost complete.",
+        "low_stock": "Your stock needs attention.",
+        "ok": "Your day is under control. Good work!",
+        "pending": "You have {{count}} client waiting for confirmation.",
+        "pending_other": "You have {{count}} clients waiting for confirmation."
+      },
+      "title": "Smart day summary"
+    },
+    "subtitle": "Here's your barbershop in real time.",
+    "view_agenda": "View schedule",
+    "week": "Week",
+    "work_mode": "Work mode"
+  },
+  "finance": {
+    "charts": {
+      "evolution_subtitle": "Income vs expenses per day",
+      "evolution_title": "Month evolution",
+      "no_completed_services": "No completed services",
+      "top_services_subtitle": "Highest revenue this month",
+      "top_services_title": "Top services"
+    },
+    "delete_dialog": {
+      "body": "This permanently removes the record from your cash flow.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "title": "Delete entry?"
+    },
+    "expenses": "Expenses",
+    "filters": {
+      "all": "All",
+      "month": "Month",
+      "today": "Today",
+      "week": "Week"
+    },
+    "highlights": {
+      "all_good": "All good.",
+      "low_stock": "Low stock",
+      "no_products": "No products registered.",
+      "no_services": "No completed services yet",
+      "products_subtitle": "Low stock and highest potential",
+      "products_title": "Products",
+      "service_line": "{{count}} visits · ticket {{ticket}}",
+      "services_subtitle": "Best sellers and highest ticket",
+      "services_title": "Featured services",
+      "top_potential": "Highest revenue potential"
+    },
+    "kpi": {
+      "avg_ticket": "Average ticket",
+      "expenses": "Expenses",
+      "margin": "Margin {{value}}%",
+      "month": "Month",
+      "profit": "Estimated profit",
+      "services": "Services",
+      "services_hint": "Completed this month",
+      "today": "Today"
+    },
+    "load_error": "Failed to load finance",
+    "movements": {
+      "by_category": "By category",
+      "count": "{{count}} entries in period",
+      "empty_body": "Record income and expenses to get started.",
+      "empty_cta": "Add first entry",
+      "empty_title": "No transactions in period",
+      "fallback_label": "Entry",
+      "no_data": "No data.",
+      "title": "Transactions"
+    },
+    "new_entry": "New entry",
+    "profit": "Profit",
+    "remove_error": "Failed to remove entry",
+    "removed": "Entry removed",
+    "revenue": "Income",
+    "subtitle": "Income, expenses and monthly result.",
+    "title": "Finance"
+  },
+  "inventory": {
+    "aria": {
+      "delete": "Delete product",
+      "edit": "Edit product"
+    },
+    "delete_dialog": {
+      "body": "This permanently removes {{name}} from your inventory.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "title": "Delete product?"
+    },
+    "edit_product": "Edit product",
+    "empty": {
+      "filtered_body": "Adjust the filter or search.",
+      "filtered_title": "Nothing matches this filter",
+      "none_body": "Add your first products to get started.",
+      "none_title": "No products registered"
+    },
+    "filters": {
+      "all": "All",
+      "healthy": "Healthy",
+      "low": "Low stock",
+      "out": "Out of stock"
+    },
+    "form": {
+      "cancel": "Cancel",
+      "create": "ADD",
+      "current_stock_label": "Current Stock",
+      "min_stock_label": "Min. Alert",
+      "name_label": "Product Name",
+      "name_placeholder": "e.g. Matte Effect Pomade",
+      "purchase_price_label": "Cost Price ($)",
+      "save": "SAVE",
+      "selling_price_label": "Selling Price ($)",
+      "sku_label": "SKU / Code",
+      "sku_placeholder": "Optional",
+      "toast": {
+        "created": "Product added",
+        "not_authenticated": "User not authenticated",
+        "save_error": "Failed to save product",
+        "updated": "Product updated"
+      },
+      "validation": {
+        "min_stock_min": "Minimum cannot be negative",
+        "name_min": "Name must be at least 2 characters",
+        "purchase_min": "Cost price must be positive",
+        "selling_min": "Selling price must be positive",
+        "stock_min": "Stock cannot be negative"
+      }
+    },
+    "kpi": {
+      "low": "Low stock",
+      "profit": "Potential profit",
+      "units": "Items in stock",
+      "value": "Stock value"
+    },
+    "labels": {
+      "margin": "Margin",
+      "min_short": "min",
+      "sale": "Sale",
+      "sku": "SKU",
+      "units_short": "un"
+    },
+    "load_error": "Failed to load inventory",
+    "low_stock": "Low stock",
+    "new_product": "New product",
+    "register_product": "Add product",
+    "remove_error": "Failed to remove product",
+    "removed": "Product removed",
+    "search_placeholder": "Search by name or SKU",
+    "status": {
+      "low": "Low",
+      "out": "Out"
+    },
+    "subtitle": "Products and reorder levels.",
+    "title": "Inventory"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "pt": "Português (Brasil)"
+  },
+  "nav": {
+    "agenda": "Schedule",
+    "ai_business": "AI Business",
+    "clients": "Clients",
+    "commissions": "Commissions",
+    "crm": "CRM",
+    "finance": "Finance",
+    "home": "Home",
+    "inventory": "Inventory",
+    "logout": "Sign out",
+    "menu": "Menu",
+    "modules": "Modules",
+    "online_booking": "Online booking",
+    "recovery": "Retention",
+    "reports": "Reports",
+    "services": "Services",
+    "settings": "Settings",
+    "subscription": "Subscription",
+    "vip_plans": "VIP plans",
+    "work_mode": "Work mode"
+  },
+  "reports": {
+    "subtitle": "Analyze your barbershop's health.",
+    "title": "Reports"
+  },
+  "services": {
+    "cancel": "CANCEL",
+    "confirm_remove_desc": "This action cannot be undone. The service will be permanently removed.",
+    "confirm_remove_title": "Remove service?",
+    "edit_service": "Edit service",
+    "empty": "No services yet.",
+    "empty_cta": "CREATE MY FIRST SERVICE",
+    "empty_subtitle": "Start by adding your first service.",
+    "empty_title": "No services",
+    "form": {
+      "active_hint": "Inactive services do not appear for booking",
+      "active_label": "Active service",
+      "cancel": "Cancel",
+      "color_aria": "Color {{color}}",
+      "color_label": "Calendar color",
+      "create": "CREATE",
+      "description_label": "Description (optional)",
+      "description_placeholder": "Describe what is included in the service...",
+      "duration_label": "Duration (min)",
+      "name_label": "Service name",
+      "name_placeholder": "e.g. Fade cut",
+      "price_label": "Price ($)",
+      "save": "SAVE",
+      "validation": {
+        "duration_min": "Duration must be at least 1 minute",
+        "name_min": "Name must be at least 2 characters",
+        "price_min": "Price must be positive"
+      }
+    },
+    "loading": "Loading services...",
+    "minutes_short": "MIN",
+    "new_service": "New service",
+    "no_description": "No detailed description",
+    "remove": "REMOVE",
+    "search_placeholder": "Search service by name...",
+    "subtitle": "Prices and duration of your services.",
+    "title": "Services",
+    "toast": {
+      "created": "Service created successfully",
+      "load_error": "Failed to load services",
+      "not_authenticated": "User not authenticated",
+      "remove_error": "Failed to remove service",
+      "removed": "Service removed",
+      "save_error": "Failed to save service",
+      "updated": "Service updated successfully"
+    }
+  },
+  "settings": {
+    "logout_hint": "You'll need to sign in again next time.",
+    "logout_title": "Sign out",
+    "region": {
+      "country": "Country",
+      "currency": "Currency",
+      "date_format": "Date format",
+      "language": "Language",
+      "save_error": "Could not save preferences",
+      "saved": "Regional preferences saved",
+      "subtitle": "Language, currency and regional formats.",
+      "time_format": "Time format",
+      "timezone": "Timezone",
+      "title": "Region"
+    },
+    "section_account": "Account zone",
+    "section_business": "Business",
+    "section_communication": "Communication",
+    "section_financial": "Financial",
+    "section_profile": "Profile",
+    "section_security": "Security",
+    "section_system": "System",
+    "section_team": "Team",
+    "subtitle": "Manage your account, shop and system preferences.",
+    "title": "Settings"
+  },
+  "subscription": {
+    "cancel": "Cancel subscription",
+    "change_plan": "Change plan",
+    "current_plan": "Current plan",
+    "next_billing": "Next billing",
+    "status": "Status",
+    "subtitle": "Plan, billing and status.",
+    "title": "Subscription"
+  }
+}

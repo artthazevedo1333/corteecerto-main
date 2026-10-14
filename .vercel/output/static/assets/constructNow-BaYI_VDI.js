@@ -1,0 +1,1 @@
+import{c as o}from"./index-R4VnCa0z.js";import{c as r}from"./normalizeDates-YOKECHEJ.js";const t=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],i=o("circle",t);function s(c){return r(c,Date.now())}export{i as C,s as c};

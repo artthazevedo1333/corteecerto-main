@@ -1,0 +1,494 @@
+{
+  "admin": {
+    "audit_log": "Auditoria",
+    "customers": "Clientes",
+    "licenses": "Licenças",
+    "subtitle": "Administração do SaaS.",
+    "title": "Painel Master"
+  },
+  "agenda": {
+    "actions": {
+      "cancel": "Cancelar",
+      "complete": "Concluir",
+      "edit": "Editar",
+      "remove": "Remover",
+      "start": "Iniciar",
+      "whatsapp": "WhatsApp"
+    },
+    "aria": {
+      "current_time": "Horário atual",
+      "drag_reorder": "Arrastar para reordenar",
+      "next_day": "Próximo dia",
+      "prev_day": "Dia anterior"
+    },
+    "back_today": "Voltar para hoje",
+    "badges": {
+      "new": "Novo",
+      "next": "Próximo"
+    },
+    "block": {
+      "break": "Pausa",
+      "generic": "Bloqueio",
+      "vacation": "Férias"
+    },
+    "cancel_dialog": {
+      "back": "Voltar",
+      "body": "O horário será marcado como cancelado na sua agenda.",
+      "confirm": "Cancelar horário",
+      "title": "Cancelar horário?"
+    },
+    "cancelled_success": "Agendamento cancelado",
+    "client_avulso": "Cliente avulso",
+    "create_appointment": "Criar agendamento",
+    "duration_min": "{{count}} min",
+    "edit_slot": "Editar horário",
+    "empty": "Nenhum atendimento neste período.",
+    "empty_body": "Nenhum atendimento para este dia.",
+    "empty_title": "Agenda livre",
+    "load_error": "Erro ao carregar agenda",
+    "month": "Mês",
+    "new_appointment": "Novo agendamento",
+    "new_slot": "Novo horário",
+    "remove_dialog": {
+      "body": "Este agendamento será removido permanentemente do histórico.",
+      "cancel": "Cancelar",
+      "confirm": "Remover",
+      "title": "Remover registro?"
+    },
+    "remove_error": "Erro ao remover",
+    "removed_success": "Agendamento removido",
+    "reorder_error": "Erro ao reordenar",
+    "reorder_success": "Horários reordenados",
+    "service_fallback": "Serviço",
+    "started_success": "Atendimento iniciado",
+    "stats": {
+      "appointments": "Atendimentos",
+      "client_fallback": "Cliente",
+      "done_count": "{{count}} concluídos",
+      "next": "Próximo",
+      "next_none": "Nada em seguida",
+      "revenue": "Faturamento",
+      "revenue_hint": "Do dia (concluídos)",
+      "waiting": "Aguardando",
+      "waiting_hint": "Confirmar clientes"
+    },
+    "status": {
+      "cancelled": "Cancelado",
+      "completed": "Concluído",
+      "in_progress": "Em atendimento",
+      "scheduled": "Aguardando"
+    },
+    "subtitle": "Organize seus atendimentos.",
+    "title": "Agenda",
+    "today": "Hoje",
+    "today_at": "Hoje · {{time}}",
+    "update_error": "Erro ao atualizar",
+    "week": "Semana"
+  },
+  "clients": {
+    "actions": {
+      "edit": "Editar",
+      "remove": "Remover",
+      "schedule": "Agendar",
+      "view": "Ver detalhes",
+      "whatsapp": "WhatsApp"
+    },
+    "badges": {
+      "inactive": "Inativo",
+      "new": "Novo",
+      "recurring": "Recorrente",
+      "return": "Retornar"
+    },
+    "clear_filters": "Limpar filtros",
+    "clear_search": "Limpar busca",
+    "delete_dialog": {
+      "body": "O cliente e seu histórico serão removidos permanentemente.",
+      "cancel": "Cancelar",
+      "confirm": "Excluir",
+      "title": "Excluir cliente?"
+    },
+    "edit_client": "Editar cliente",
+    "empty": "Nenhum cliente cadastrado ainda.",
+    "empty_state": {
+      "empty_body": "Cadastre seu primeiro cliente para começar.",
+      "empty_title": "Sua base está vazia",
+      "no_results_body": "Ajuste a busca ou os filtros ativos.",
+      "no_results_title": "Nenhum cliente encontrado"
+    },
+    "filters": {
+      "active": "Ativos",
+      "all": "Todos",
+      "inactive": "Inativos",
+      "new": "Novos",
+      "recurring": "Recorrentes",
+      "return": "Retornar",
+      "vip": "VIP"
+    },
+    "info": {
+      "last": "Última: {{date}}",
+      "never": "Nunca visitou",
+      "next": "Próxima: {{date}}"
+    },
+    "load_error": "Erro ao carregar clientes",
+    "metrics": {
+      "avg_ticket": "Ticket médio",
+      "total_spent": "Total gasto",
+      "visits": "Visitas"
+    },
+    "new_client": "Novo cliente",
+    "register": "Cadastrar cliente",
+    "remove_error": "Erro ao remover cliente",
+    "removed": "Cliente removido",
+    "search_placeholder": "Buscar por nome ou telefone...",
+    "stats": {
+      "active": "Ativos",
+      "active_hint": "Visita nos últimos 60 dias",
+      "retention": "Retenção",
+      "retention_hint": "{{count}} inativos",
+      "total": "Total",
+      "total_hint": "Base cadastrada",
+      "vip": "VIP",
+      "vip_hint": "Com assinatura ativa"
+    },
+    "subtitle": "Seu relacionamento em um só lugar.",
+    "title": "Clientes"
+  },
+  "common": {
+    "actions": "Ações",
+    "add": "Adicionar",
+    "authenticating": "Autenticando...",
+    "back": "Voltar",
+    "cancel": "Cancelar",
+    "close": "Fechar",
+    "confirm": "Confirmar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "error_generic": "Ocorreu um erro. Tente novamente.",
+    "goodbye": "Até logo!",
+    "loading": "Carregando...",
+    "loading_profile": "Carregando perfil...",
+    "logout_error": "Erro ao sair",
+    "new": "Novo",
+    "no": "Não",
+    "open": "Abrir",
+    "save": "Salvar",
+    "save_changes": "Salvar alterações",
+    "saving": "Salvando",
+    "search": "Buscar",
+    "session_expired": "Sua sessão expirou ou é inválida.",
+    "view_all": "Ver todos",
+    "yes": "Sim"
+  },
+  "countries": {
+    "BR": "Brasil",
+    "ES": "Espanha",
+    "US": "Estados Unidos"
+  },
+  "dashboard": {
+    "appointments_today": "{{count}} atendimento",
+    "appointments_today_other": "{{count}} atendimentos",
+    "average_ticket": "Ticket médio",
+    "avg_ticket_base": "Base de {{count}} atend.",
+    "clients_at_risk": "Clientes em risco",
+    "clients_at_risk_hint": "Precisam de atenção",
+    "greeting": "Bem-vindo",
+    "insights_body": "A Corte Certo AI analisa seu movimento e sugere ações concretas para elevar seu faturamento.",
+    "insights_cta": "Ver insights",
+    "insights_title": "Cresça sua barbearia com dados",
+    "inventory_alerts": "em alerta",
+    "inventory_label": "Estoque",
+    "monthly_goal": "Meta mensal",
+    "next_appointment": "Próximo atendimento",
+    "of_goal": "{{current}} de {{goal}}",
+    "reports_link": "Relatórios",
+    "revenue_today": "Faturamento hoje",
+    "quick_actions": {
+      "new_appointment": "Novo agendamento",
+      "new_client": "Novo cliente",
+      "new_sale": "Nova venda",
+      "new_service": "Novo serviço"
+    },
+    "smart_day": {
+      "actions": {
+        "confirm_clients": "Confirmar clientes",
+        "open_agenda": "Abrir agenda",
+        "register_sale": "Registrar venda",
+        "view_stock": "Ver estoque"
+      },
+      "items": {
+        "appointments": "Atendimentos",
+        "cancelled_today": "Cancelamentos hoje",
+        "expected_revenue": "Previsão do dia",
+        "low_stock": "Estoque baixo",
+        "next_client": "Próximo cliente",
+        "pending_confirmation": "Aguardando confirmação"
+      },
+      "messages": {
+        "busy_day": "Hoje será um dia movimentado. Mantenha o ritmo!",
+        "cancelled": "Alguns cancelamentos hoje. Considere reabrir horários.",
+        "empty_day": "Nenhum atendimento hoje. Ótimo momento para divulgar horários livres.",
+        "full_day": "Seu dia está praticamente completo.",
+        "low_stock": "Seu estoque precisa de atenção.",
+        "ok": "Seu dia está sob controle. Bom trabalho!",
+        "pending": "Você tem {{count}} cliente aguardando confirmação.",
+        "pending_other": "Você tem {{count}} clientes aguardando confirmação."
+      },
+      "title": "Resumo inteligente do dia"
+    },
+    "subtitle": "Aqui está sua barbearia em tempo real.",
+    "view_agenda": "Ver agenda",
+    "week": "Semana",
+    "work_mode": "Modo trabalho"
+  },
+  "finance": {
+    "charts": {
+      "evolution_subtitle": "Entradas x saídas por dia",
+      "evolution_title": "Evolução do mês",
+      "no_completed_services": "Sem serviços concluídos",
+      "top_services_subtitle": "Maior faturamento no mês",
+      "top_services_title": "Top serviços"
+    },
+    "delete_dialog": {
+      "body": "Esta ação remove o registro do seu fluxo de caixa permanentemente.",
+      "cancel": "Cancelar",
+      "confirm": "Excluir",
+      "title": "Excluir lançamento?"
+    },
+    "expenses": "Despesas",
+    "filters": {
+      "all": "Tudo",
+      "month": "Mês",
+      "today": "Hoje",
+      "week": "Semana"
+    },
+    "highlights": {
+      "all_good": "Tudo em ordem.",
+      "low_stock": "Estoque baixo",
+      "no_products": "Sem produtos cadastrados.",
+      "no_services": "Nenhum serviço concluído ainda",
+      "products_subtitle": "Estoque baixo e maior potencial",
+      "products_title": "Produtos",
+      "service_line": "{{count}} atendimentos · ticket {{ticket}}",
+      "services_subtitle": "Mais vendidos e maior ticket",
+      "services_title": "Serviços em destaque",
+      "top_potential": "Maior faturamento potencial"
+    },
+    "kpi": {
+      "avg_ticket": "Ticket médio",
+      "expenses": "Despesas",
+      "margin": "Margem {{value}}%",
+      "month": "Mês",
+      "profit": "Lucro estimado",
+      "services": "Serviços",
+      "services_hint": "Concluídos no mês",
+      "today": "Hoje"
+    },
+    "load_error": "Erro ao carregar financeiro",
+    "movements": {
+      "by_category": "Por categoria",
+      "count": "{{count}} lançamentos no período",
+      "empty_body": "Registre entradas e saídas para começar.",
+      "empty_cta": "Lançar primeiro valor",
+      "empty_title": "Sem movimentações no período",
+      "fallback_label": "Lançamento",
+      "no_data": "Sem dados.",
+      "title": "Movimentações"
+    },
+    "new_entry": "Nova movimentação",
+    "profit": "Lucro",
+    "remove_error": "Erro ao remover lançamento",
+    "removed": "Lançamento removido",
+    "revenue": "Receitas",
+    "subtitle": "Entradas, saídas e resultado do mês.",
+    "title": "Financeiro"
+  },
+  "inventory": {
+    "aria": {
+      "delete": "Excluir produto",
+      "edit": "Editar produto"
+    },
+    "delete_dialog": {
+      "body": "Esta ação remove {{name}} permanentemente do estoque.",
+      "cancel": "Cancelar",
+      "confirm": "Excluir",
+      "title": "Excluir produto?"
+    },
+    "edit_product": "Editar produto",
+    "empty": {
+      "filtered_body": "Ajuste o filtro ou a busca.",
+      "filtered_title": "Nada encontrado com esse filtro",
+      "none_body": "Cadastre seus primeiros produtos para começar.",
+      "none_title": "Nenhum produto cadastrado"
+    },
+    "filters": {
+      "all": "Todos",
+      "healthy": "Saudável",
+      "low": "Estoque baixo",
+      "out": "Zerados"
+    },
+    "form": {
+      "cancel": "Cancelar",
+      "create": "CADASTRAR",
+      "current_stock_label": "Estoque Atual",
+      "min_stock_label": "Mín. p/ Alerta",
+      "name_label": "Nome do Produto",
+      "name_placeholder": "Ex: Pomada Efeito Matte",
+      "purchase_price_label": "Preço Compra (R$)",
+      "save": "SALVAR",
+      "selling_price_label": "Preço Venda (R$)",
+      "sku_label": "SKU / Código",
+      "sku_placeholder": "Opcional",
+      "toast": {
+        "created": "Produto cadastrado",
+        "not_authenticated": "Usuário não autenticado",
+        "save_error": "Erro ao salvar produto",
+        "updated": "Produto atualizado"
+      },
+      "validation": {
+        "min_stock_min": "Mínimo não pode ser negativo",
+        "name_min": "Nome deve ter pelo menos 2 caracteres",
+        "purchase_min": "Preço de compra deve ser positivo",
+        "selling_min": "Preço de venda deve ser positivo",
+        "stock_min": "Estoque não pode ser negativo"
+      }
+    },
+    "kpi": {
+      "low": "Estoque baixo",
+      "profit": "Lucro potencial",
+      "units": "Itens em estoque",
+      "value": "Valor em estoque"
+    },
+    "labels": {
+      "margin": "Margem",
+      "min_short": "mín",
+      "sale": "Venda",
+      "sku": "SKU",
+      "units_short": "un"
+    },
+    "load_error": "Erro ao carregar estoque",
+    "low_stock": "Estoque baixo",
+    "new_product": "Novo produto",
+    "register_product": "Cadastrar produto",
+    "remove_error": "Erro ao remover produto",
+    "removed": "Produto removido",
+    "search_placeholder": "Buscar por nome ou SKU",
+    "status": {
+      "low": "Baixo",
+      "out": "Zerado"
+    },
+    "subtitle": "Produtos e níveis de reposição.",
+    "title": "Estoque"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "pt": "Português (Brasil)"
+  },
+  "nav": {
+    "agenda": "Agenda",
+    "ai_business": "AI Business",
+    "clients": "Clientes",
+    "commissions": "Comissões",
+    "crm": "CRM",
+    "finance": "Financeiro",
+    "home": "Início",
+    "inventory": "Estoque",
+    "logout": "Sair",
+    "menu": "Menu",
+    "modules": "Módulos",
+    "online_booking": "Agendamento",
+    "recovery": "Recuperação",
+    "reports": "Relatórios",
+    "services": "Serviços",
+    "settings": "Ajustes",
+    "subscription": "Assinatura",
+    "vip_plans": "Planos VIP",
+    "work_mode": "Modo Trabalho"
+  },
+  "reports": {
+    "subtitle": "Analise a saúde da barbearia.",
+    "title": "Relatórios"
+  },
+  "services": {
+    "cancel": "CANCELAR",
+    "confirm_remove_desc": "Esta ação não pode ser desfeita. O serviço será removido permanentemente.",
+    "confirm_remove_title": "Remover Serviço?",
+    "edit_service": "Editar serviço",
+    "empty": "Nenhum serviço cadastrado.",
+    "empty_cta": "CRIAR MEU PRIMEIRO SERVIÇO",
+    "empty_subtitle": "Comece adicionando seu primeiro serviço.",
+    "empty_title": "Nenhum serviço",
+    "form": {
+      "active_hint": "Serviços inativos não aparecem para agendamento",
+      "active_label": "Serviço Ativo",
+      "cancel": "Cancelar",
+      "color_aria": "Cor {{color}}",
+      "color_label": "Cor na Agenda",
+      "create": "CRIAR",
+      "description_label": "Descrição (Opcional)",
+      "description_placeholder": "Descreva o que está incluso no serviço...",
+      "duration_label": "Duração (Min)",
+      "name_label": "Nome do Serviço",
+      "name_placeholder": "Ex: Corte Degradê",
+      "price_label": "Preço (R$)",
+      "save": "SALVAR",
+      "validation": {
+        "duration_min": "Duração deve ser pelo menos 1 minuto",
+        "name_min": "Nome deve ter pelo menos 2 caracteres",
+        "price_min": "Preço deve ser positivo"
+      }
+    },
+    "loading": "Carregando serviços...",
+    "minutes_short": "MIN",
+    "new_service": "Novo serviço",
+    "no_description": "Sem descrição detalhada",
+    "remove": "REMOVER",
+    "search_placeholder": "Buscar serviço por nome...",
+    "subtitle": "Preços e duração dos seus atendimentos.",
+    "title": "Serviços",
+    "toast": {
+      "created": "Serviço criado com sucesso",
+      "load_error": "Erro ao carregar serviços",
+      "not_authenticated": "Usuário não autenticado",
+      "remove_error": "Erro ao remover serviço",
+      "removed": "Serviço removido",
+      "save_error": "Erro ao salvar serviço",
+      "updated": "Serviço atualizado com sucesso"
+    }
+  },
+  "settings": {
+    "logout_hint": "Você precisará entrar novamente na próxima vez.",
+    "logout_title": "Sair da conta",
+    "region": {
+      "country": "País",
+      "currency": "Moeda",
+      "date_format": "Formato de Data",
+      "language": "Idioma",
+      "save_error": "Não foi possível salvar as preferências",
+      "saved": "Preferências regionais salvas",
+      "subtitle": "Idioma, moeda e formatos regionais.",
+      "time_format": "Formato de Hora",
+      "timezone": "Fuso Horário",
+      "title": "Região"
+    },
+    "section_account": "Zona de conta",
+    "section_business": "Negócio",
+    "section_communication": "Comunicação",
+    "section_financial": "Financeiro",
+    "section_profile": "Perfil",
+    "section_security": "Segurança",
+    "section_system": "Sistema",
+    "section_team": "Equipe",
+    "subtitle": "Gerencie sua conta, barbearia e preferências do sistema.",
+    "title": "Configurações"
+  },
+  "subscription": {
+    "cancel": "Cancelar assinatura",
+    "change_plan": "Trocar plano",
+    "current_plan": "Plano atual",
+    "next_billing": "Próxima cobrança",
+    "status": "Status",
+    "subtitle": "Plano, cobrança e status.",
+    "title": "Assinatura"
+  }
+}
