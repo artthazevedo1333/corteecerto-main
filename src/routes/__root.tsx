@@ -8,11 +8,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { ErrorBoundary } from "../components/error-boundary";
 
 import appCss from "../styles.css?url";
-import { registerServiceWorker } from "../lib/register-sw";
-import "../lib/i18n";
 
 declare module '@tanstack/react-router' {
   interface StaticDataRouteOption {
@@ -43,7 +40,7 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  console.error("Erro capturado pelo Router:", error);
   const router = useRouter();
 
   return (
@@ -53,7 +50,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           Erro ao carregar página
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Ocorreu um erro inesperado. Tente atualizar a página ou volte para o início.
+          {error?.message || "Ocorreu um erro inesperado. Tente atualizar a página."}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -85,47 +82,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Corte Certo" },
       {
         name: "description",
-        content:
-          "Corte Certo is a SaaS application for barbershops to manage appointments, clients, and business operations.",
-      },
-      { name: "author", content: "Corte Certo" },
-      { property: "og:title", content: "Corte Certo" },
-      {
-        property: "og:description",
-        content:
-          "Corte Certo is a SaaS application for barbershops to manage appointments, clients, and business operations.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "Corte Certo" },
-      {
-        name: "twitter:description",
-        content:
-          "Corte Certo is a SaaS application for barbershops to manage appointments, clients, and business operations.",
-      },
-      {
-        property: "og:image",
-        content: "/favicon.png?v=2",
-      },
-      {
-        name: "twitter:image",
-        content: "/favicon.png?v=2",
+        content: "Corte Certo is a SaaS application for barbershops to manage appointments, clients, and business operations.",
       },
     ],
     links: [
-      {
-        rel: 'icon',
-        type: 'image/png',
-        href: '/favicon.png?v=2',
-      },
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-      {
-        rel: 'manifest',
-        href: '/manifest.webmanifest',
-      },
+      { rel: 'icon', type: 'image/png', href: '/favicon.png?v=2' },
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'manifest', href: '/manifest.webmanifest' },
     ],
   }),
   shellComponent: RootShell,
@@ -152,7 +115,15 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   useEffect(() => {
-    registerServiceWorker();
+    // Isolamos o Service Worker e o i18n para carregarem dinamicamente
+    // APENAS no navegador, protegendo o SSR de quebras.
+    import("../lib/register-sw")
+      .then(({ registerServiceWorker }) => {
+        if (registerServiceWorker) registerServiceWorker();
+      })
+      .catch(console.error);
+
+    import("../lib/i18n").catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -161,16 +132,10 @@ function RootComponent() {
         e.message === "ResizeObserver loop completed with undelivered notifications." ||
         e.message === "ResizeObserver loop limit exceeded"
       ) {
-        const resizeObserverErrDiv = document.getElementById(
-          "webpack-dev-server-client-overlay-div",
-        );
+        const resizeObserverErrDiv = document.getElementById("webpack-dev-server-client-overlay-div");
         const resizeObserverErr = document.getElementById("webpack-dev-server-client-overlay");
-        if (resizeObserverErr) {
-          resizeObserverErr.setAttribute("style", "display: none");
-        }
-        if (resizeObserverErrDiv) {
-          resizeObserverErrDiv.setAttribute("style", "display: none");
-        }
+        if (resizeObserverErr) resizeObserverErr.setAttribute("style", "display: none");
+        if (resizeObserverErrDiv) resizeObserverErrDiv.setAttribute("style", "display: none");
         e.stopImmediatePropagation();
       }
     };
@@ -181,9 +146,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <Outlet />
-      </ErrorBoundary>
+      <Outlet />
     </QueryClientProvider>
   );
 }
