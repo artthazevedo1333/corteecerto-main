@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Heart, MessageCircle, Bookmark, Share2, MoreVertical, Edit2, Trash2, CalendarClock } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

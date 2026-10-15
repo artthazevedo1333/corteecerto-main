@@ -1,174 +1,263 @@
 "use client";
 
-import { createFileRoute } from '@tanstack/react-router';
-import React, { useState, useEffect } from 'react';
-import { useCommunityFeed, useCreatePost, useToggleLike } from '@/lib/communityAndAdminQueries';
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { supabase } from '@/lib/supabase';
+import { PostCard, type PostProps } from '@/components/community/PostCard';
+import { useState, useRef } from 'react';
+import { ImagePlus, Send, Loader2, X, Sparkles, TrendingUp, Search, Scissors } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Heart, MessageCircle, ImageIcon, Send, Loader2 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
+// 1. O Loader (SSR) - Mantido igual para performance
 export const Route = createFileRoute('/dashboard/community')({
-  component: CommunityFeed,
+  loader: async () => {
+    const { data: rawPosts, error } = await supabase
+      .from('posts')
+      .select(`
+        id,
+        user_id,
+        image_url,
+        caption,
+        created_at,
+        profiles (
+          id,
+          username,
+          full_name,
+          avatar_url
+        )
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Erro ao buscar posts:', error);
+      return { posts: [] };
+    }
+
+    const formattedPosts: PostProps[] = (rawPosts || []).map((post: any) => {
+      const profile = Array.isArray(post.profiles) ? post.profiles[0] : post.profiles;
+      return {
+        id: post.id,
+        user_id: post.user_id,
+        author: {
+          id: profile?.id || '',
+          name: profile?.username || profile?.full_name || 'Barbeiro',
+          avatar_url: profile?.avatar_url || '',
+        },
+        image_url: post.image_url,
+        description: post.caption || '',
+        likes_count: 0,
+        comments_count: 0,
+        created_at: post.created_at,
+        is_liked_by_me: false,
+        is_saved_by_me: false
+      };
+    });
+
+    return { posts: formattedPosts };
+  },
+  component: ComunidadePage,
 });
 
-export default function CommunityFeed() {
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useCommunityFeed();
-  const createPost = useCreatePost();
-  const toggleLike = useToggleLike();
+// 2. Componente de Criação (Agora com design mais agressivo e premium)
+function CreatePostBox() {
+  const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const [content, setContent] = useState('');
-  const [file, setFile] = useState<File | undefined>(undefined);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setCurrentUserId(data.session?.user?.id || null);
-    });
-  }, []);
-
-  const posts = data?.pages.flatMap((page) => page ?? []) ?? [];
-
-  const handleCreatePost = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!content.trim() && !file) return;
-    if (!currentUserId) return;
-    
-    await createPost.mutateAsync({ content, file, authorId: currentUserId });
-    setContent('');
-    setFile(undefined);
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-[400px] items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
+  const removeImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleSubmit = async () => {
+    if (!content.trim() && !selectedImage) return;
+    setIsSubmitting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { alert("Sessão inválida!"); setIsSubmitting(false); return; }
+
+      let imageUrl = '';
+      if (selectedImage) {
+        const fileExt = selectedImage.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${user.id}/${fileName}`;
+        const { error: uploadError } = await supabase.storage.from('post_images').upload(filePath, selectedImage);
+        if (uploadError) throw uploadError;
+        const { data: publicUrlData } = supabase.storage.from('post_images').getPublicUrl(filePath);
+        imageUrl = publicUrlData.publicUrl;
+      }
+
+      const { error: insertError } = await supabase.from('posts').insert({
+        user_id: user.id, caption: content, image_url: imageUrl,
+      });
+      if (insertError) throw insertError;
+
+      setContent(''); removeImage(); router.invalidate();
+    } catch (error) {
+      console.error("Erro:", error); alert("Falha ao publicar.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="max-w-2xl mx-auto py-8 px-4 space-y-6">
-      <Card className="rounded-3xl border-border">
-        <form onSubmit={handleCreatePost}>
-          <CardContent className="pt-6">
-            <Textarea
-              placeholder="O que você quer compartilhar com a comunidade de barbeiros?"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="mb-4 resize-none border-none focus-visible:ring-0 px-0 text-base"
-              rows={3}
+    <div className="bg-gradient-to-br from-card to-secondary/20 border border-border/60 rounded-2xl p-6 mb-10 shadow-lg backdrop-blur-sm transition-all hover:shadow-xl relative overflow-hidden group">
+      {/* Detalhe de fundo subtil */}
+      <div className="absolute -right-20 -top-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-700"></div>
+      
+      <div className="flex gap-5 relative z-10">
+        <Avatar className="h-12 w-12 border-2 border-primary/20 shadow-sm">
+          <AvatarFallback className="bg-primary text-primary-foreground font-black text-lg">EU</AvatarFallback>
+        </Avatar>
+        <div className="flex-1 space-y-4">
+          <Textarea 
+            placeholder="Qual é a obra-prima de hoje? Partilhe com os mestres..."
+            className="resize-none border-0 focus-visible:ring-0 px-1 pt-2 min-h-[60px] text-lg shadow-none bg-transparent placeholder:text-muted-foreground/60 font-medium"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            disabled={isSubmitting}
+          />
+          
+          {imagePreview && (
+            <div className="relative inline-block w-full rounded-xl overflow-hidden border-2 border-border/80 shadow-md transition-transform hover:scale-[1.01] duration-300">
+              <img src={imagePreview} alt="Preview" className="w-full object-cover max-h-80" />
+              <button onClick={removeImage} className="absolute top-3 right-3 bg-black/60 text-white p-2 rounded-full hover:bg-destructive transition-colors backdrop-blur-md">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between pt-4 border-t border-border/40">
+            <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleImageSelect} />
+            <Button 
+              variant="outline" 
+              className="rounded-full px-5 border-border/50 hover:bg-secondary/50 hover:text-foreground font-medium transition-colors"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isSubmitting}
+            >
+              <ImagePlus className="w-4 h-4 mr-2 text-primary" />
+              Anexar Obra
+            </Button>
+            <Button 
+              onClick={handleSubmit} 
+              disabled={(!content.trim() && !selectedImage) || isSubmitting} 
+              className="rounded-full px-8 py-5 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all"
+            >
+              {isSubmitting ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <Send className="w-5 h-5 mr-2" />}
+              {isSubmitting ? 'A Publicar...' : 'Lançar'}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 3. A Página Principal
+function ComunidadePage() {
+  const { posts } = Route.useLoaderData();
+
+  const handleLike = (id: string, isLiked: boolean) => console.log('Like:', id);
+  const handleSave = (id: string) => console.log('Save:', id);
+  const handleShare = (id: string) => console.log('Share:', id);
+  const handleComment = (id: string) => console.log('Comment:', id);
+
+  return (
+    <div className="min-h-screen bg-slate-50/50 dark:bg-background/95 w-full relative overflow-hidden">
+      
+      {/* O PLUS: Animação de Fundo Premium (Tesoura Gigante Subtil) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 opacity-[0.03] dark:opacity-[0.02]">
+        <Scissors className="w-[800px] h-[800px] text-foreground animate-[spin_60s_linear_infinite]" />
+      </div>
+
+      {/* Conteúdo Principal (z-10 garante que fica por cima da marca d'água) */}
+      <div className="max-w-3xl mx-auto py-8 px-4 sm:px-6 relative z-10">
+        
+        {/* Cabeçalho Premium */}
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-border/40">
+          <div>
+            <h1 className="text-4xl font-black tracking-tighter text-foreground flex items-center gap-3">
+              Elite <span className="text-primary">Corte Certo</span>
+            </h1>
+            <p className="text-muted-foreground mt-1 text-sm font-medium">A maior rede de mestres barbeiros.</p>
+          </div>
+          <div className="hidden sm:flex items-center gap-2 bg-secondary/50 py-2 px-4 rounded-full border border-border/50 backdrop-blur-sm">
+            <TrendingUp className="w-4 h-4 text-primary" />
+            <span className="text-sm font-bold text-foreground">Em Alta</span>
+          </div>
+        </div>
+        
+        {/* Barra de Pesquisa */}
+        <div className="mb-8 flex gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <input 
+              type="text" 
+              placeholder="Procurar mestres barbeiros ou barbearias..." 
+              className="w-full h-14 pl-12 pr-4 rounded-full border border-border/60 bg-card shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-base backdrop-blur-sm"
             />
-            <div className="flex items-center gap-4 border-t pt-4 mt-2">
-              <div className="flex-1">
-                <label 
-                  htmlFor="file-upload" 
-                  className="cursor-pointer flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-fit"
-                >
-                  <ImageIcon className="w-5 h-5" />
-                  {file ? <span className="truncate max-w-[200px] inline-block">{file.name}</span> : 'Anexar imagem'}
-                </label>
-                <Input
-                  id="file-upload"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => setFile(e.target.files?.[0] || undefined)}
+          </div>
+        </div>
+        
+        {/* Carrossel de Stories */}
+        <div className="flex gap-4 overflow-x-auto pb-6 mb-4 custom-scrollbar">
+           <div className="flex flex-col items-center gap-2 cursor-pointer flex-shrink-0">
+              <div className="w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-yellow-400 to-primary">
+                 <Avatar className="w-full h-full border-2 border-background"><AvatarFallback className="font-bold text-xs bg-card">EU</AvatarFallback></Avatar>
+              </div>
+              <span className="text-xs font-semibold text-foreground">Meu Story</span>
+           </div>
+           {[1, 2, 3, 4, 5, 6].map(i => (
+             <div key={i} className="flex flex-col items-center gap-2 cursor-pointer flex-shrink-0 hover:scale-105 transition-transform">
+                <div className="w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-muted to-muted-foreground/30">
+                   <Avatar className="w-full h-full border-2 border-background"><AvatarFallback className="text-xs bg-card">B{i}</AvatarFallback></Avatar>
+                </div>
+                <span className="text-xs font-medium text-muted-foreground">Mestre {i}</span>
+             </div>
+           ))}
+        </div>
+
+        <CreatePostBox />
+        
+        {/* Feed de Posts */}
+        {posts && posts.length > 0 ? (
+          <div className="space-y-10 relative z-10">
+            {posts.map((post) => (
+              <div key={post.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+                <PostCard 
+                  post={post} 
+                  currentUserId={undefined} 
+                  onLike={handleLike}
+                  onSave={handleSave}
+                  onShare={handleShare}
+                  onComment={handleComment}
                 />
               </div>
-              <Button className="rounded-xl" type="submit" disabled={createPost.isPending || (!content.trim() && !file)}>
-                {createPost.isPending ? 'Publicando...' : (
-                  <>
-                    <Send className="w-4 h-4 mr-2" /> 
-                    Publicar
-                  </>
-                )}
-              </Button>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-card/80 backdrop-blur-sm border border-border/50 rounded-3xl shadow-sm relative z-10">
+            <div className="bg-primary/10 p-5 rounded-full mb-6 animate-pulse">
+              <Sparkles className="w-10 h-10 text-primary" />
             </div>
-          </CardContent>
-        </form>
-      </Card>
-
-      <div className="space-y-6">
-        {posts.map((post: any) => {
-          const isLikedByMe = false;
-
-          return (
-            <Card key={post.id} className="overflow-hidden shadow-sm rounded-3xl border-border">
-              <CardHeader className="flex flex-row items-center gap-4 pb-4">
-                <Avatar className="w-10 h-10 border">
-                  <AvatarImage src={post.profiles?.avatar_url} />
-                  <AvatarFallback>B</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm text-foreground">
-                      {post.profiles?.full_name || 'Barbeiro'}
-                    </span>
-                    <Badge variant="secondary" className="text-[10px] uppercase font-bold tracking-wider rounded-full">
-                      Membro
-                    </Badge>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(post.created_at).toLocaleString('pt-BR', { dateStyle: 'medium', timeStyle: 'short' })}
-                  </span>
-                </div>
-              </CardHeader>
-              <CardContent className="pb-4 space-y-4">
-                {post.content && (
-                  <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">{post.content}</p>
-                )}
-                {post.media_url && (
-                  <div className="relative w-full overflow-hidden rounded-2xl border border-border">
-                    <img
-                      src={post.media_url}
-                      alt="Anexo da publicação"
-                      className="w-full max-h-[500px] object-cover"
-                    />
-                  </div>
-                )}
-              </CardContent>
-              <CardFooter className="border-t pt-4 flex gap-6 pb-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (currentUserId) {
-                      toggleLike.mutate({ postId: post.id, userId: currentUserId, isLiked: isLikedByMe });
-                    }
-                  }}
-                  className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
-                    isLikedByMe ? 'text-red-500' : 'text-muted-foreground hover:text-red-500'
-                  }`}
-                >
-                  <Heart className={`w-5 h-5 ${isLikedByMe ? 'fill-current' : ''}`} />
-                  <span>{post.likes_count?.[0]?.count || 0}</span>
-                </button>
-                <button type="button" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-                  <MessageCircle className="w-5 h-5" />
-                  <span>{post.comments_count?.[0]?.count || 0}</span>
-                </button>
-              </CardFooter>
-            </Card>
-          );
-        })}
-
-        {hasNextPage && (
-          <Button 
-            variant="outline" 
-            className="w-full rounded-xl" 
-            onClick={() => fetchNextPage()} 
-            disabled={isFetchingNextPage}
-          >
-            {isFetchingNextPage ? 'Carregando mais...' : 'Carregar mais publicações'}
-          </Button>
-        )}
-
-        {posts.length === 0 && (
-          <div className="text-center text-muted-foreground py-12 border-2 border-dashed rounded-3xl border-border">
-            Nenhuma publicação encontrada. Seja o primeiro a compartilhar algo!
+            <h3 className="text-2xl font-bold text-foreground mb-2">A Tela Está em Branco</h3>
+            <p className="text-muted-foreground max-w-md">
+              Ainda não há trabalhos partilhados. Seja a lenda que inaugura a nossa galeria de arte.
+            </p>
           </div>
         )}
       </div>

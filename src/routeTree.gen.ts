@@ -18,6 +18,7 @@ import { Route as DashboardLayoutRouteImport } from './routes/dashboard/_layout'
 import { Route as BookingSlugRouteImport } from './routes/booking/$slug'
 import { Route as AuthResetRouteImport } from './routes/auth/reset'
 import { Route as DashboardLayoutIndexRouteImport } from './routes/dashboard/_layout/index'
+import { Route as DashboardPerfilProfileIdRouteImport } from './routes/dashboard/perfil/$profileId'
 import { Route as DashboardLayoutVipPlansRouteImport } from './routes/dashboard/_layout/vip-plans'
 import { Route as DashboardLayoutSubscriptionRouteImport } from './routes/dashboard/_layout/subscription'
 import { Route as DashboardLayoutSettingsRouteImport } from './routes/dashboard/_layout/settings'
@@ -85,6 +86,12 @@ const DashboardLayoutIndexRoute = DashboardLayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardLayoutRoute,
 } as any)
+const DashboardPerfilProfileIdRoute =
+  DashboardPerfilProfileIdRouteImport.update({
+    id: '/dashboard/perfil/$profileId',
+    path: '/dashboard/perfil/$profileId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DashboardLayoutVipPlansRoute = DashboardLayoutVipPlansRouteImport.update({
   id: '/vip-plans',
   path: '/vip-plans',
@@ -225,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/settings': typeof DashboardLayoutSettingsRouteWithChildren
   '/dashboard/subscription': typeof DashboardLayoutSubscriptionRoute
   '/dashboard/vip-plans': typeof DashboardLayoutVipPlansRoute
+  '/dashboard/perfil/$profileId': typeof DashboardPerfilProfileIdRoute
   '/dashboard/': typeof DashboardLayoutIndexRoute
   '/api/public/webhooks/payments': typeof ApiPublicWebhooksPaymentsRoute
   '/dashboard/settings/business': typeof DashboardLayoutSettingsBusinessRoute
@@ -256,6 +264,7 @@ export interface FileRoutesByTo {
   '/dashboard/settings': typeof DashboardLayoutSettingsRouteWithChildren
   '/dashboard/subscription': typeof DashboardLayoutSubscriptionRoute
   '/dashboard/vip-plans': typeof DashboardLayoutVipPlansRoute
+  '/dashboard/perfil/$profileId': typeof DashboardPerfilProfileIdRoute
   '/dashboard': typeof DashboardLayoutIndexRoute
   '/api/public/webhooks/payments': typeof ApiPublicWebhooksPaymentsRoute
   '/dashboard/settings/business': typeof DashboardLayoutSettingsBusinessRoute
@@ -289,6 +298,7 @@ export interface FileRoutesById {
   '/dashboard/_layout/settings': typeof DashboardLayoutSettingsRouteWithChildren
   '/dashboard/_layout/subscription': typeof DashboardLayoutSubscriptionRoute
   '/dashboard/_layout/vip-plans': typeof DashboardLayoutVipPlansRoute
+  '/dashboard/perfil/$profileId': typeof DashboardPerfilProfileIdRoute
   '/dashboard/_layout/': typeof DashboardLayoutIndexRoute
   '/api/public/webhooks/payments': typeof ApiPublicWebhooksPaymentsRoute
   '/dashboard/_layout/settings/business': typeof DashboardLayoutSettingsBusinessRoute
@@ -323,6 +333,7 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/subscription'
     | '/dashboard/vip-plans'
+    | '/dashboard/perfil/$profileId'
     | '/dashboard/'
     | '/api/public/webhooks/payments'
     | '/dashboard/settings/business'
@@ -354,6 +365,7 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/subscription'
     | '/dashboard/vip-plans'
+    | '/dashboard/perfil/$profileId'
     | '/dashboard'
     | '/api/public/webhooks/payments'
     | '/dashboard/settings/business'
@@ -386,6 +398,7 @@ export interface FileRouteTypes {
     | '/dashboard/_layout/settings'
     | '/dashboard/_layout/subscription'
     | '/dashboard/_layout/vip-plans'
+    | '/dashboard/perfil/$profileId'
     | '/dashboard/_layout/'
     | '/api/public/webhooks/payments'
     | '/dashboard/_layout/settings/business'
@@ -403,6 +416,7 @@ export interface RootRouteChildren {
   DashboardLayoutRoute: typeof DashboardLayoutRouteWithChildren
   DashboardCommunityRoute: typeof DashboardCommunityRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  DashboardPerfilProfileIdRoute: typeof DashboardPerfilProfileIdRoute
   ApiPublicWebhooksPaymentsRoute: typeof ApiPublicWebhooksPaymentsRoute
 }
 
@@ -470,6 +484,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardLayoutIndexRouteImport
       parentRoute: typeof DashboardLayoutRoute
+    }
+    '/dashboard/perfil/$profileId': {
+      id: '/dashboard/perfil/$profileId'
+      path: '/dashboard/perfil/$profileId'
+      fullPath: '/dashboard/perfil/$profileId'
+      preLoaderRoute: typeof DashboardPerfilProfileIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/_layout/vip-plans': {
       id: '/dashboard/_layout/vip-plans'
@@ -696,6 +717,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardLayoutRoute: DashboardLayoutRouteWithChildren,
   DashboardCommunityRoute: DashboardCommunityRoute,
   AuthIndexRoute: AuthIndexRoute,
+  DashboardPerfilProfileIdRoute: DashboardPerfilProfileIdRoute,
   ApiPublicWebhooksPaymentsRoute: ApiPublicWebhooksPaymentsRoute,
 }
 export const routeTree = rootRouteImport
