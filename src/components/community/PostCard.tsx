@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Heart, MessageCircle, Bookmark, Share2, MoreVertical, Edit2, Trash2, CalendarClock } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export interface PostProps {
   id: string;
-  user_id: string; // Para checar se o post é do utilizador logado
+  user_id: string; 
   author: {
     id: string;
     name: string;
@@ -54,20 +55,29 @@ export function PostCard({ post, currentUserId, onLike, onSave, onShare, onComme
     });
   };
 
+  // Garante que temos o ID correto para a navegação, seja do autor ou do user_id fallback
+  const profileIdToNavigate = post.author?.id || post.user_id;
+
   return (
     <article className="bg-card text-card-foreground border border-border rounded-xl overflow-hidden mb-8 shadow-sm transition-all hover:shadow-md">
       {/* Cabeçalho do Post */}
       <div className="flex items-center justify-between p-4">
-        <div className="flex items-center gap-3 cursor-pointer group">
+        
+        {/* Envolvido no Link do TanStack Router para navegação rápida e sem refresh */}
+        <Link 
+          to="/dashboard/perfil/$profileId" 
+          params={{ profileId: profileIdToNavigate }}
+          className="flex items-center gap-3 cursor-pointer group"
+        >
           <Avatar className="h-10 w-10 border border-border ring-2 ring-transparent group-hover:ring-primary/20 transition-all">
             <AvatarImage src={post.author?.avatar_url} alt={post.author?.name} />
-            <AvatarFallback className="bg-secondary text-secondary-foreground">
+            <AvatarFallback className="bg-secondary text-secondary-foreground font-bold">
               {post.author?.name?.charAt(0) || "B"}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-sm hover:underline">
+              <span className="font-semibold text-sm group-hover:text-primary transition-colors">
                 {post.author?.name || "Barbeiro"}
               </span>
               {post.author?.badge && (
@@ -80,7 +90,7 @@ export function PostCard({ post, currentUserId, onLike, onSave, onShare, onComme
               {post.created_at ? formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ptBR }) : "agora mesmo"}
             </span>
           </div>
-        </div>
+        </Link>
 
         {/* Menu de Ações (Apenas para o Dono) */}
         {isOwner && (
@@ -107,7 +117,7 @@ export function PostCard({ post, currentUserId, onLike, onSave, onShare, onComme
         )}
       </div>
 
-      {/* Imagem (Proporção Premium) */}
+      {/* Imagem */}
       <div 
         className="relative aspect-[4/5] w-full bg-secondary group cursor-pointer overflow-hidden" 
         onDoubleClick={() => onLike(post.id, post.is_liked_by_me)}
@@ -120,7 +130,7 @@ export function PostCard({ post, currentUserId, onLike, onSave, onShare, onComme
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground font-medium">
             Sem imagem
           </div>
         )}
@@ -172,7 +182,13 @@ export function PostCard({ post, currentUserId, onLike, onSave, onShare, onComme
         ) : (
           post.description && (
             <p className="text-sm text-muted-foreground leading-relaxed">
-              <span className="font-semibold text-foreground mr-2">{post.author?.name}</span>
+              <Link 
+                to="/dashboard/perfil/$profileId" 
+                params={{ profileId: profileIdToNavigate }}
+                className="font-semibold text-foreground mr-2 hover:text-primary transition-colors"
+              >
+                {post.author?.name}
+              </Link>
               {post.description}
             </p>
           )

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate, useLocation } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   LayoutDashboard,
@@ -22,7 +22,8 @@ import {
   Grid,
   Zap,
   Shield,
-  MessageSquareHeart // <--- Novo ícone para a Comunidade
+  MessageSquareHeart,
+  HelpCircle
 } from "lucide-react";
 
 import { useModules, ModuleId } from "@/hooks/use-modules";
@@ -32,24 +33,46 @@ import { FeatureGate } from "@/components/subscription/FeatureGate";
 import { OnboardingWizard } from "@/components/onboarding/OnboardingWizard";
 import type { FeatureKey } from "@/lib/subscription";
 import { Button } from "@/components/ui/button";
-
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "sonner";
+import { FloatingHelp } from "@/components/FloatingHelp";
 
+// 1. Definições de Rotas Movidas para o Topo (Evita erros de leitura do TypeScript)
+const ROUTE_FEATURE: Array<{ prefix: string; feature: FeatureKey }> = [
+  { prefix: "/dashboard/agenda", feature: "agenda" },
+  { prefix: "/dashboard/clients", feature: "clients" },
+  { prefix: "/dashboard/services", feature: "services" },
+  { prefix: "/dashboard/inventory", feature: "inventory" },
+  { prefix: "/dashboard/finance", feature: "finance" },
+  { prefix: "/dashboard/commissions", feature: "commissions" },
+  { prefix: "/dashboard/booking", feature: "online-booking" },
+  { prefix: "/dashboard/vip-plans", feature: "vip" },
+  { prefix: "/dashboard/reports", feature: "reports" },
+  { prefix: "/dashboard/crm", feature: "crm" },
+  { prefix: "/dashboard/recovery", feature: "recovery" },
+  { prefix: "/dashboard/ai", feature: "ai" },
+];
+
+function RouteFeatureGate({ pathname, children }: { pathname: string; children: ReactNode }) {
+  const match = ROUTE_FEATURE.find((r) => pathname.startsWith(r.prefix));
+  if (!match) return <>{children}</>;
+  return <FeatureGate feature={match.feature}>{children}</FeatureGate>;
+}
+
+// 2. Declaração da Rota Principal
 export const Route = createFileRoute("/dashboard/_layout")({
   staticData: { adminOnly: false },
   component: DashboardLayout,
 });
 
+// 3. Componente Layout
 function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [onboarding, setOnboarding] = useState<{ userId: string; userName: string | null } | null>(
-    null,
-  );
+  const [onboarding, setOnboarding] = useState<{ userId: string; userName: string | null } | null>(null);
 
   const checkOnboarding = async (userId: string, fullName: string | null) => {
     const { data } = await (supabase.from("profiles") as any)
@@ -82,11 +105,6 @@ function DashboardLayout() {
       }
 
       if (!session) {
-        if (import.meta.env.DEV)
-          console.log(
-            "[Auth] No session found in dashboard, checking if we are in a confirmation flow...",
-          );
-        
         setTimeout(async () => {
           const retryRes = await supabase.auth.getSession();
           const retrySession = retryRes?.data?.session ?? null;
@@ -96,8 +114,6 @@ function DashboardLayout() {
           }
           
           if (!retrySession) {
-            if (import.meta.env.DEV)
-              console.log("[Auth] Still no session after delay, redirecting to login");
             navigate({ 
               to: "/auth",
               search: (old: any) => ({ ...old })
@@ -105,14 +121,6 @@ function DashboardLayout() {
           }
         }, 1500);
       } else {
-        if (import.meta.env.DEV)
-          console.log(
-            "[Auth] User authenticated:",
-            session.user.id,
-            "Email confirmed:",
-            !!session.user.email_confirmed_at,
-          );
-
         const { data: profile, error: profileError } = await supabase
           .from("profiles")
           .select("id")
@@ -120,7 +128,6 @@ function DashboardLayout() {
           .single();
 
         if (profileError && profileError.code === "PGRST116") {
-          console.warn("[Auth] Profile missing after trigger, creating manually...");
           await supabase.from("profiles").upsert({
             id: session.user.id,
             full_name: session.user.user_metadata?.full_name || "Barbeiro",
@@ -134,9 +141,6 @@ function DashboardLayout() {
 
     checkUser();
     const subRes = supabase.auth.onAuthStateChange((event, session) => {
-      if (import.meta.env.DEV)
-        console.log(`[Auth] Dashboard state change: ${event}`, session?.user?.id);
-      
       if (event === "SIGNED_OUT") {
         setUserEmail(null);
         navigate({ 
@@ -164,8 +168,8 @@ function DashboardLayout() {
       });
     }
   };
+
   const { isEnabled, isLoading: isModulesLoading } = useModules();
-  
   const isSupremeAdmin = userEmail?.toLowerCase()?.trim() === "azevedoarthur120@gmail.com";
 
   if (loading || isModulesLoading) {
@@ -186,7 +190,6 @@ function DashboardLayout() {
   const allNavItems = [
     { label: "Início", icon: LayoutDashboard, to: "/dashboard", module: null },
     { label: "Modo Barbeiro", icon: Zap, to: "/dashboard/barber-mode", module: null },
-    // NOVO ITEM: Comunidade
     { label: "Comunidade", icon: MessageSquareHeart, to: "/dashboard/community", module: null },
     { label: "Agenda", icon: Calendar, to: "/dashboard/agenda", module: "agenda" },
     { label: "Clientes", icon: Users, to: "/dashboard/clients", module: "clients" },
@@ -195,12 +198,7 @@ function DashboardLayout() {
     { label: "Serviços", icon: Scissors, to: "/dashboard/services", module: "services" },
     { label: "Planos VIP", icon: Crown, to: "/dashboard/vip-plans", module: "vip" },
     { label: "Comissões", icon: Percent, to: "/dashboard/commissions", module: "commissions" },
-    {
-      label: "Agendamento Online",
-      icon: Globe,
-      to: "/dashboard/booking",
-      module: "online-booking",
-    },
+    { label: "Agendamento Online", icon: Globe, to: "/dashboard/booking", module: "online-booking" },
     { label: "Relatórios", icon: BarChart3, to: "/dashboard/reports", module: "reports" },
     { label: "CRM", icon: Heart, to: "/dashboard/crm", module: "crm" },
     { label: "Recuperação", icon: UserPlus, to: "/dashboard/recovery", module: "recovery" },
@@ -208,6 +206,7 @@ function DashboardLayout() {
     { label: "Módulos", icon: Grid, to: "/dashboard/modules", module: null },
     { label: "Assinatura", icon: Crown, to: "/dashboard/subscription", module: null },
     { label: "Configurações", icon: Settings, to: "/dashboard/settings", module: null },
+    { label: "Ajuda e Tutoriais", icon: HelpCircle, to: "/dashboard/ajuda", module: null },
   ];
 
   const navItems = allNavItems.filter((item) => !item.module || isEnabled(item.module as ModuleId));
@@ -333,27 +332,8 @@ function DashboardLayout() {
           onComplete={() => setOnboarding(null)}
         />
       )}
+      
+      <FloatingHelp />
     </div>
   );
-}
-
-const ROUTE_FEATURE: Array<{ prefix: string; feature: FeatureKey }> = [
-  { prefix: "/dashboard/agenda", feature: "agenda" },
-  { prefix: "/dashboard/clients", feature: "clients" },
-  { prefix: "/dashboard/services", feature: "services" },
-  { prefix: "/dashboard/inventory", feature: "inventory" },
-  { prefix: "/dashboard/finance", feature: "finance" },
-  { prefix: "/dashboard/commissions", feature: "commissions" },
-  { prefix: "/dashboard/booking", feature: "online-booking" },
-  { prefix: "/dashboard/vip-plans", feature: "vip" },
-  { prefix: "/dashboard/reports", feature: "reports" },
-  { prefix: "/dashboard/crm", feature: "crm" },
-  { prefix: "/dashboard/recovery", feature: "recovery" },
-  { prefix: "/dashboard/ai", feature: "ai" },
-];
-
-function RouteFeatureGate({ pathname, children }: { pathname: string; children: React.ReactNode }) {
-  const match = ROUTE_FEATURE.find((r) => pathname.startsWith(r.prefix));
-  if (!match) return <>{children}</>;
-  return <FeatureGate feature={match.feature}>{children}</FeatureGate>;
 }

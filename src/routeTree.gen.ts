@@ -14,6 +14,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as DashboardCommunityRouteImport } from './routes/dashboard/community'
+import { Route as DashboardAjudaRouteImport } from './routes/dashboard/ajuda'
 import { Route as DashboardLayoutRouteImport } from './routes/dashboard/_layout'
 import { Route as BookingSlugRouteImport } from './routes/booking/$slug'
 import { Route as AuthResetRouteImport } from './routes/auth/reset'
@@ -64,6 +65,11 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
 const DashboardCommunityRoute = DashboardCommunityRouteImport.update({
   id: '/dashboard/community',
   path: '/dashboard/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardAjudaRoute = DashboardAjudaRouteImport.update({
+  id: '/dashboard/ajuda',
+  path: '/dashboard/ajuda',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/auth/reset': typeof AuthResetRoute
   '/booking/$slug': typeof BookingSlugRoute
   '/dashboard': typeof DashboardLayoutRouteWithChildren
+  '/dashboard/ajuda': typeof DashboardAjudaRoute
   '/dashboard/community': typeof DashboardCommunityRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/agenda': typeof DashboardLayoutAgendaRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByTo {
   '/owner': typeof OwnerRoute
   '/auth/reset': typeof AuthResetRoute
   '/booking/$slug': typeof BookingSlugRoute
+  '/dashboard/ajuda': typeof DashboardAjudaRoute
   '/dashboard/community': typeof DashboardCommunityRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/agenda': typeof DashboardLayoutAgendaRoute
@@ -280,6 +288,7 @@ export interface FileRoutesById {
   '/auth/reset': typeof AuthResetRoute
   '/booking/$slug': typeof BookingSlugRoute
   '/dashboard/_layout': typeof DashboardLayoutRouteWithChildren
+  '/dashboard/ajuda': typeof DashboardAjudaRoute
   '/dashboard/community': typeof DashboardCommunityRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/_layout/agenda': typeof DashboardLayoutAgendaRoute
@@ -315,6 +324,7 @@ export interface FileRouteTypes {
     | '/auth/reset'
     | '/booking/$slug'
     | '/dashboard'
+    | '/dashboard/ajuda'
     | '/dashboard/community'
     | '/auth/'
     | '/dashboard/agenda'
@@ -347,6 +357,7 @@ export interface FileRouteTypes {
     | '/owner'
     | '/auth/reset'
     | '/booking/$slug'
+    | '/dashboard/ajuda'
     | '/dashboard/community'
     | '/auth'
     | '/dashboard/agenda'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/auth/reset'
     | '/booking/$slug'
     | '/dashboard/_layout'
+    | '/dashboard/ajuda'
     | '/dashboard/community'
     | '/auth/'
     | '/dashboard/_layout/agenda'
@@ -414,6 +426,7 @@ export interface RootRouteChildren {
   AuthResetRoute: typeof AuthResetRoute
   BookingSlugRoute: typeof BookingSlugRoute
   DashboardLayoutRoute: typeof DashboardLayoutRouteWithChildren
+  DashboardAjudaRoute: typeof DashboardAjudaRoute
   DashboardCommunityRoute: typeof DashboardCommunityRoute
   AuthIndexRoute: typeof AuthIndexRoute
   DashboardPerfilProfileIdRoute: typeof DashboardPerfilProfileIdRoute
@@ -455,6 +468,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard/community'
       fullPath: '/dashboard/community'
       preLoaderRoute: typeof DashboardCommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/ajuda': {
+      id: '/dashboard/ajuda'
+      path: '/dashboard/ajuda'
+      fullPath: '/dashboard/ajuda'
+      preLoaderRoute: typeof DashboardAjudaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/_layout': {
@@ -715,6 +735,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthResetRoute: AuthResetRoute,
   BookingSlugRoute: BookingSlugRoute,
   DashboardLayoutRoute: DashboardLayoutRouteWithChildren,
+  DashboardAjudaRoute: DashboardAjudaRoute,
   DashboardCommunityRoute: DashboardCommunityRoute,
   AuthIndexRoute: AuthIndexRoute,
   DashboardPerfilProfileIdRoute: DashboardPerfilProfileIdRoute,
