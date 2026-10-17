@@ -1,1 +1,0 @@
-import{t as m,n as D,g as r,f as d}from"./normalizeDates-YOKECHEJ.js";function o(a,e){const t=m(a,e?.in);return t.setHours(0,0,0,0),t}function y(a,e,t){const[i,l]=D(t?.in,a,e),n=o(i),s=o(l),c=+n-r(n),f=+s-r(s);return Math.round((c-f)/d)}export{y as d,o as s};

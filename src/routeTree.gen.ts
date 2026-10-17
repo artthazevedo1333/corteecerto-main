@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OwnerRouteImport } from './routes/owner'
+import { Route as NovaLandingRouteImport } from './routes/nova-landing'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
@@ -45,6 +46,11 @@ import { Route as ApiPublicWebhooksPaymentsRouteImport } from './routes/api/publ
 const OwnerRoute = OwnerRouteImport.update({
   id: '/owner',
   path: '/owner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NovaLandingRoute = NovaLandingRouteImport.update({
+  id: '/nova-landing',
+  path: '/nova-landing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -215,6 +221,7 @@ const ApiPublicWebhooksPaymentsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/nova-landing': typeof NovaLandingRoute
   '/owner': typeof OwnerRoute
   '/auth/reset': typeof AuthResetRoute
   '/booking/$slug': typeof BookingSlugRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/nova-landing': typeof NovaLandingRoute
   '/owner': typeof OwnerRoute
   '/auth/reset': typeof AuthResetRoute
   '/booking/$slug': typeof BookingSlugRoute
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/nova-landing': typeof NovaLandingRoute
   '/owner': typeof OwnerRoute
   '/auth/reset': typeof AuthResetRoute
   '/booking/$slug': typeof BookingSlugRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/nova-landing'
     | '/owner'
     | '/auth/reset'
     | '/booking/$slug'
@@ -353,6 +363,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/nova-landing'
     | '/owner'
     | '/auth/reset'
     | '/booking/$slug'
@@ -386,6 +397,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/nova-landing'
     | '/owner'
     | '/auth/reset'
     | '/booking/$slug'
@@ -421,6 +433,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  NovaLandingRoute: typeof NovaLandingRoute
   OwnerRoute: typeof OwnerRoute
   AuthResetRoute: typeof AuthResetRoute
   BookingSlugRoute: typeof BookingSlugRoute
@@ -440,6 +453,13 @@ declare module '@tanstack/react-router' {
       path: '/owner'
       fullPath: '/owner'
       preLoaderRoute: typeof OwnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nova-landing': {
+      id: '/nova-landing'
+      path: '/nova-landing'
+      fullPath: '/nova-landing'
+      preLoaderRoute: typeof NovaLandingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -729,6 +749,7 @@ const DashboardLayoutRouteWithChildren = DashboardLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  NovaLandingRoute: NovaLandingRoute,
   OwnerRoute: OwnerRoute,
   AuthResetRoute: AuthResetRoute,
   BookingSlugRoute: BookingSlugRoute,
