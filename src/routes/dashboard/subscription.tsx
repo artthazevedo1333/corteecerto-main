@@ -2,9 +2,10 @@
 
 import { createFileRoute } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
-import { Check, Globe, ArrowUpRight } from 'lucide-react';
+import { Check, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
+import { useLocale } from '@/hooks/use-locale';
 
 export const Route = createFileRoute('/dashboard/subscription')({
   component: SubscriptionPage,
@@ -13,10 +14,13 @@ export const Route = createFileRoute('/dashboard/subscription')({
 type Currency = 'BRL' | 'EUR' | 'USD';
 
 function SubscriptionPage() {
-  const [currency, setCurrency] = useState<Currency>('BRL');
+  // 1. Conectamos o cérebro internacional!
+  const { prefs, update } = useLocale();
+  const currency = (prefs.currency || 'BRL') as Currency;
+
   const [userId, setUserId] = useState<string | null>(null);
 
-  // 1. Vai buscar o ID do utilizador logado
+  // 2. Vai buscar o ID do utilizador logado
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -93,7 +97,7 @@ function SubscriptionPage() {
     }
   ];
 
-  // 2. Função mágica que constrói o link final com o ID do utilizador
+  // 3. Função mágica que constrói o link final com o ID do utilizador
   const getPaymentLink = (baseLink: string, currency: Currency) => {
     if (!userId || !baseLink || baseLink.startsWith('#')) return baseLink;
 
@@ -130,7 +134,8 @@ function SubscriptionPage() {
               {(['BRL', 'EUR', 'USD'] as Currency[]).map((c) => (
                 <button
                   key={c}
-                  onClick={() => setCurrency(c)}
+                  // Atualiza a preferência global do utilizador!
+                  onClick={() => update({ currency: c })}
                   className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                     currency === c 
                       ? 'bg-background shadow-sm text-foreground' 

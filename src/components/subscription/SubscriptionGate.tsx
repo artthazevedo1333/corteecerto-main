@@ -32,7 +32,10 @@ export function SubscriptionGate({ children }: Props) {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    navigate({ to: "/auth" });
+    navigate({ 
+      to: "/auth",
+      search: (old: any) => ({ ...old })
+    });
   };
 
   const statusLabel: Record<string, string> = {
@@ -88,3 +91,4 @@ export function SubscriptionGate({ children }: Props) {
     </div>
   );
 }
+
