@@ -1,9 +1,10 @@
 "use client";
 
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Check, Globe, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
 
 export const Route = createFileRoute('/dashboard/subscription')({
   component: SubscriptionPage,
@@ -13,15 +14,25 @@ type Currency = 'BRL' | 'EUR' | 'USD';
 
 function SubscriptionPage() {
   const [currency, setCurrency] = useState<Currency>('BRL');
+  const [userId, setUserId] = useState<string | null>(null);
 
-  // Símbolos das moedas
+  // 1. Vai buscar o ID do utilizador logado
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setUserId(session.user.id);
+      }
+    };
+    fetchUser();
+  }, []);
+
   const currencySymbols = {
     BRL: 'R$',
     EUR: '€',
     USD: '$'
   };
 
-  // Os seus planos com os preços inflacionados para o mercado global
   const plans = [
     {
       id: 'essencial',
@@ -36,9 +47,9 @@ function SubscriptionPage() {
         'Suporte por e-mail'
       ],
       links: {
-        BRL: '#link-mercadopago-essencial',
-        EUR: 'https://buy.stripe.com/test_cNifZhe2BeeNbS27o26wE04',
-        USD: 'https://buy.stripe.com/test_14A28r5w58Ut4pAcIm6wE03'
+        BRL: 'SEU_LINK_DO_MERCADO_PAGO_ESSENCIAL_AQUI',
+        EUR: 'https://buy.stripe.com/14A00jgjF7fK1iY3tAbbG03',
+        USD: 'https://buy.stripe.com/3cI3cv1oL0RmbXC1lsbbG00'
       }
     },
     {
@@ -56,9 +67,9 @@ function SubscriptionPage() {
         'Múltiplos profissionais'
       ],
       links: {
-        BRL: '#link-mercadopago-profissional',
-        EUR: 'https://buy.stripe.com/test_9B64gz0bL4EdcW69wa6wE05', // Cole o link da Stripe aqui!
-        USD: 'https://buy.stripe.com/test_eVq14n7Ed0nXcW6fUy6wE06'
+        BRL: 'SEU_LINK_DO_MERCADO_PAGO_PROFISSIONAL_AQUI',
+        EUR: 'https://buy.stripe.com/8x2eVdd7t2ZuaTy4xEbbG04',
+        USD: 'https://buy.stripe.com/cNifZhd7tgQkaTyggmbbG01'
       }
     },
     {
@@ -75,12 +86,32 @@ function SubscriptionPage() {
         'Suporte prioritário'
       ],
       links: {
-        BRL: '#link-mercadopago-premium',
-        EUR: 'https://buy.stripe.com/test_8x25kD7Ed9Yx5tE37M6wE02',
-        USD: '#link-stripe-premium-usd'
+        BRL: 'SEU_LINK_DO_MERCADO_PAGO_PREMIUM_AQUI',
+        EUR: 'https://buy.stripe.com/28E00j7N9eIc5ze0hobbG05',
+        USD: 'https://buy.stripe.com/9B6dR9aZl7fK9PufcibbG02'
       }
     }
   ];
+
+  // 2. Função mágica que constrói o link final com o ID do utilizador
+  const getPaymentLink = (baseLink: string, currency: Currency) => {
+    if (!userId || !baseLink || baseLink.startsWith('#')) return baseLink;
+
+    try {
+      const url = new URL(baseLink);
+      if (currency === 'BRL') {
+        // Para o Mercado Pago
+        url.searchParams.set('external_reference', userId);
+      } else {
+        // Para a Stripe
+        url.searchParams.set('client_reference_id', userId);
+      }
+      return url.toString();
+    } catch (e) {
+       console.error("Erro ao construir link", e)
+       return baseLink;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background w-full pb-20">
@@ -89,7 +120,7 @@ function SubscriptionPage() {
         {/* Cabeçalho e Seletor de Moeda */}
         <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Assinatura</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Minha Assinatura</h1>
             <p className="text-muted-foreground">Escolha o plano ideal para a sua barbearia.</p>
           </div>
           
@@ -123,8 +154,8 @@ function SubscriptionPage() {
               }`}
             >
               {plan.id === 'premium' && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">
-                  Recomendado
+                <div className="absolute -top-3 right-8 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                  Mais popular
                 </div>
               )}
 
@@ -134,7 +165,7 @@ function SubscriptionPage() {
               </div>
 
               <div className="mb-8 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-foreground">
+                <span className="text-4xl font-bold text-foreground">
                   {currencySymbols[currency]} {plan.prices[currency]}
                 </span>
                 <span className="text-muted-foreground font-medium">/mês</span>
@@ -149,7 +180,7 @@ function SubscriptionPage() {
                 ))}
               </ul>
 
-              <a href={plan.links[currency]} target="_blank" rel="noopener noreferrer" className="mt-auto">
+              <a href={getPaymentLink(plan.links[currency], currency)} className="mt-auto block">
                 <Button 
                   className={`w-full h-12 text-base font-bold transition-all ${
                     plan.id === 'premium' 
@@ -157,7 +188,7 @@ function SubscriptionPage() {
                       : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                   }`}
                 >
-                  Alterar para {plan.name} <ArrowUpRight className="w-4 h-4 ml-2" />
+                  Alterar para {plan.name}
                 </Button>
               </a>
             </div>

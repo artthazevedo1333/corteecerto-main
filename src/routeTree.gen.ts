@@ -13,6 +13,7 @@ import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
+import { Route as DashboardSubscriptionRouteImport } from './routes/dashboard/subscription'
 import { Route as DashboardCommunityRouteImport } from './routes/dashboard/community'
 import { Route as DashboardAjudaRouteImport } from './routes/dashboard/ajuda'
 import { Route as DashboardLayoutRouteImport } from './routes/dashboard/_layout'
@@ -21,7 +22,6 @@ import { Route as AuthResetRouteImport } from './routes/auth/reset'
 import { Route as DashboardLayoutIndexRouteImport } from './routes/dashboard/_layout/index'
 import { Route as DashboardPerfilProfileIdRouteImport } from './routes/dashboard/perfil/$profileId'
 import { Route as DashboardLayoutVipPlansRouteImport } from './routes/dashboard/_layout/vip-plans'
-import { Route as DashboardLayoutSubscriptionRouteImport } from './routes/dashboard/_layout/subscription'
 import { Route as DashboardLayoutSettingsRouteImport } from './routes/dashboard/_layout/settings'
 import { Route as DashboardLayoutServicesRouteImport } from './routes/dashboard/_layout/services'
 import { Route as DashboardLayoutReportsRouteImport } from './routes/dashboard/_layout/reports'
@@ -60,6 +60,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthIndexRoute = AuthIndexRouteImport.update({
   id: '/auth/',
   path: '/auth/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardSubscriptionRoute = DashboardSubscriptionRouteImport.update({
+  id: '/dashboard/subscription',
+  path: '/dashboard/subscription',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardCommunityRoute = DashboardCommunityRouteImport.update({
@@ -103,12 +108,6 @@ const DashboardLayoutVipPlansRoute = DashboardLayoutVipPlansRouteImport.update({
   path: '/vip-plans',
   getParentRoute: () => DashboardLayoutRoute,
 } as any)
-const DashboardLayoutSubscriptionRoute =
-  DashboardLayoutSubscriptionRouteImport.update({
-    id: '/subscription',
-    path: '/subscription',
-    getParentRoute: () => DashboardLayoutRoute,
-  } as any)
 const DashboardLayoutSettingsRoute = DashboardLayoutSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -222,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/dashboard/ajuda': typeof DashboardAjudaRoute
   '/dashboard/community': typeof DashboardCommunityRoute
+  '/dashboard/subscription': typeof DashboardSubscriptionRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/agenda': typeof DashboardLayoutAgendaRoute
   '/dashboard/ai': typeof DashboardLayoutAiRoute
@@ -237,7 +237,6 @@ export interface FileRoutesByFullPath {
   '/dashboard/reports': typeof DashboardLayoutReportsRoute
   '/dashboard/services': typeof DashboardLayoutServicesRoute
   '/dashboard/settings': typeof DashboardLayoutSettingsRouteWithChildren
-  '/dashboard/subscription': typeof DashboardLayoutSubscriptionRoute
   '/dashboard/vip-plans': typeof DashboardLayoutVipPlansRoute
   '/dashboard/perfil/$profileId': typeof DashboardPerfilProfileIdRoute
   '/dashboard/': typeof DashboardLayoutIndexRoute
@@ -255,6 +254,7 @@ export interface FileRoutesByTo {
   '/booking/$slug': typeof BookingSlugRoute
   '/dashboard/ajuda': typeof DashboardAjudaRoute
   '/dashboard/community': typeof DashboardCommunityRoute
+  '/dashboard/subscription': typeof DashboardSubscriptionRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/agenda': typeof DashboardLayoutAgendaRoute
   '/dashboard/ai': typeof DashboardLayoutAiRoute
@@ -270,7 +270,6 @@ export interface FileRoutesByTo {
   '/dashboard/reports': typeof DashboardLayoutReportsRoute
   '/dashboard/services': typeof DashboardLayoutServicesRoute
   '/dashboard/settings': typeof DashboardLayoutSettingsRouteWithChildren
-  '/dashboard/subscription': typeof DashboardLayoutSubscriptionRoute
   '/dashboard/vip-plans': typeof DashboardLayoutVipPlansRoute
   '/dashboard/perfil/$profileId': typeof DashboardPerfilProfileIdRoute
   '/dashboard': typeof DashboardLayoutIndexRoute
@@ -290,6 +289,7 @@ export interface FileRoutesById {
   '/dashboard/_layout': typeof DashboardLayoutRouteWithChildren
   '/dashboard/ajuda': typeof DashboardAjudaRoute
   '/dashboard/community': typeof DashboardCommunityRoute
+  '/dashboard/subscription': typeof DashboardSubscriptionRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/_layout/agenda': typeof DashboardLayoutAgendaRoute
   '/dashboard/_layout/ai': typeof DashboardLayoutAiRoute
@@ -305,7 +305,6 @@ export interface FileRoutesById {
   '/dashboard/_layout/reports': typeof DashboardLayoutReportsRoute
   '/dashboard/_layout/services': typeof DashboardLayoutServicesRoute
   '/dashboard/_layout/settings': typeof DashboardLayoutSettingsRouteWithChildren
-  '/dashboard/_layout/subscription': typeof DashboardLayoutSubscriptionRoute
   '/dashboard/_layout/vip-plans': typeof DashboardLayoutVipPlansRoute
   '/dashboard/perfil/$profileId': typeof DashboardPerfilProfileIdRoute
   '/dashboard/_layout/': typeof DashboardLayoutIndexRoute
@@ -326,6 +325,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/ajuda'
     | '/dashboard/community'
+    | '/dashboard/subscription'
     | '/auth/'
     | '/dashboard/agenda'
     | '/dashboard/ai'
@@ -341,7 +341,6 @@ export interface FileRouteTypes {
     | '/dashboard/reports'
     | '/dashboard/services'
     | '/dashboard/settings'
-    | '/dashboard/subscription'
     | '/dashboard/vip-plans'
     | '/dashboard/perfil/$profileId'
     | '/dashboard/'
@@ -359,6 +358,7 @@ export interface FileRouteTypes {
     | '/booking/$slug'
     | '/dashboard/ajuda'
     | '/dashboard/community'
+    | '/dashboard/subscription'
     | '/auth'
     | '/dashboard/agenda'
     | '/dashboard/ai'
@@ -374,7 +374,6 @@ export interface FileRouteTypes {
     | '/dashboard/reports'
     | '/dashboard/services'
     | '/dashboard/settings'
-    | '/dashboard/subscription'
     | '/dashboard/vip-plans'
     | '/dashboard/perfil/$profileId'
     | '/dashboard'
@@ -393,6 +392,7 @@ export interface FileRouteTypes {
     | '/dashboard/_layout'
     | '/dashboard/ajuda'
     | '/dashboard/community'
+    | '/dashboard/subscription'
     | '/auth/'
     | '/dashboard/_layout/agenda'
     | '/dashboard/_layout/ai'
@@ -408,7 +408,6 @@ export interface FileRouteTypes {
     | '/dashboard/_layout/reports'
     | '/dashboard/_layout/services'
     | '/dashboard/_layout/settings'
-    | '/dashboard/_layout/subscription'
     | '/dashboard/_layout/vip-plans'
     | '/dashboard/perfil/$profileId'
     | '/dashboard/_layout/'
@@ -428,6 +427,7 @@ export interface RootRouteChildren {
   DashboardLayoutRoute: typeof DashboardLayoutRouteWithChildren
   DashboardAjudaRoute: typeof DashboardAjudaRoute
   DashboardCommunityRoute: typeof DashboardCommunityRoute
+  DashboardSubscriptionRoute: typeof DashboardSubscriptionRoute
   AuthIndexRoute: typeof AuthIndexRoute
   DashboardPerfilProfileIdRoute: typeof DashboardPerfilProfileIdRoute
   ApiPublicWebhooksPaymentsRoute: typeof ApiPublicWebhooksPaymentsRoute
@@ -461,6 +461,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth/'
       preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/subscription': {
+      id: '/dashboard/subscription'
+      path: '/dashboard/subscription'
+      fullPath: '/dashboard/subscription'
+      preLoaderRoute: typeof DashboardSubscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/community': {
@@ -517,13 +524,6 @@ declare module '@tanstack/react-router' {
       path: '/vip-plans'
       fullPath: '/dashboard/vip-plans'
       preLoaderRoute: typeof DashboardLayoutVipPlansRouteImport
-      parentRoute: typeof DashboardLayoutRoute
-    }
-    '/dashboard/_layout/subscription': {
-      id: '/dashboard/_layout/subscription'
-      path: '/subscription'
-      fullPath: '/dashboard/subscription'
-      preLoaderRoute: typeof DashboardLayoutSubscriptionRouteImport
       parentRoute: typeof DashboardLayoutRoute
     }
     '/dashboard/_layout/settings': {
@@ -699,7 +699,6 @@ interface DashboardLayoutRouteChildren {
   DashboardLayoutReportsRoute: typeof DashboardLayoutReportsRoute
   DashboardLayoutServicesRoute: typeof DashboardLayoutServicesRoute
   DashboardLayoutSettingsRoute: typeof DashboardLayoutSettingsRouteWithChildren
-  DashboardLayoutSubscriptionRoute: typeof DashboardLayoutSubscriptionRoute
   DashboardLayoutVipPlansRoute: typeof DashboardLayoutVipPlansRoute
   DashboardLayoutIndexRoute: typeof DashboardLayoutIndexRoute
 }
@@ -719,7 +718,6 @@ const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
   DashboardLayoutReportsRoute: DashboardLayoutReportsRoute,
   DashboardLayoutServicesRoute: DashboardLayoutServicesRoute,
   DashboardLayoutSettingsRoute: DashboardLayoutSettingsRouteWithChildren,
-  DashboardLayoutSubscriptionRoute: DashboardLayoutSubscriptionRoute,
   DashboardLayoutVipPlansRoute: DashboardLayoutVipPlansRoute,
   DashboardLayoutIndexRoute: DashboardLayoutIndexRoute,
 }
@@ -737,6 +735,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardLayoutRoute: DashboardLayoutRouteWithChildren,
   DashboardAjudaRoute: DashboardAjudaRoute,
   DashboardCommunityRoute: DashboardCommunityRoute,
+  DashboardSubscriptionRoute: DashboardSubscriptionRoute,
   AuthIndexRoute: AuthIndexRoute,
   DashboardPerfilProfileIdRoute: DashboardPerfilProfileIdRoute,
   ApiPublicWebhooksPaymentsRoute: ApiPublicWebhooksPaymentsRoute,
