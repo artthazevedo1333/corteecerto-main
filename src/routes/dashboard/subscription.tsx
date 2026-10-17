@@ -51,7 +51,7 @@ function SubscriptionPage() {
         'Suporte por e-mail'
       ],
       links: {
-        BRL: 'SEU_LINK_DO_MERCADO_PAGO_ESSENCIAL_AQUI',
+        BRL: 'https://mpago.la/24XQh35',
         EUR: 'https://buy.stripe.com/14A00jgjF7fK1iY3tAbbG03',
         USD: 'https://buy.stripe.com/3cI3cv1oL0RmbXC1lsbbG00'
       }
@@ -71,7 +71,7 @@ function SubscriptionPage() {
         'Múltiplos profissionais'
       ],
       links: {
-        BRL: 'SEU_LINK_DO_MERCADO_PAGO_PROFISSIONAL_AQUI',
+        BRL: 'https://mpago.la/1GkL6of',
         EUR: 'https://buy.stripe.com/8x2eVdd7t2ZuaTy4xEbbG04',
         USD: 'https://buy.stripe.com/cNifZhd7tgQkaTyggmbbG01'
       }
@@ -90,7 +90,7 @@ function SubscriptionPage() {
         'Suporte prioritário'
       ],
       links: {
-        BRL: 'SEU_LINK_DO_MERCADO_PAGO_PREMIUM_AQUI',
+        BRL: 'https://mpago.la/24KhsWK',
         EUR: 'https://buy.stripe.com/28E00j7N9eIc5ze0hobbG05',
         USD: 'https://buy.stripe.com/9B6dR9aZl7fK9PufcibbG02'
       }

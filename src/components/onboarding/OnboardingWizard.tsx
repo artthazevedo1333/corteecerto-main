@@ -1,3 +1,4 @@
+import { useLocale } from "@/hooks/use-locale";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -102,12 +103,15 @@ export function OnboardingWizard({ open, userId, userName, onComplete }: Props) 
   const [draft, setDraft] = useState<Draft>(() => loadDraft());
   const [saving, setSaving] = useState(false);
   const qc = useQueryClient();
+  
+  // 1. Chamamos o nosso cérebro internacional
+  const { prefs } = useLocale();
 
   useEffect(() => {
     saveDraft(draft);
   }, [draft]);
 
-  const totalSteps = 6; // welcome + 5 conteúdo (finalização é a 6ª)
+  const totalSteps = 6;
   const progress = ((draft.step + 1) / totalSteps) * 100;
 
   const update = (patch: Partial<Draft>) => setDraft((d) => ({ ...d, ...patch }));
@@ -128,7 +132,10 @@ export function OnboardingWizard({ open, userId, userName, onComplete }: Props) 
           barber_shop_name: draft.shopName.trim() || "Minha Barbearia",
           brand_color: draft.brandColor,
           business_address: draft.address.trim() || null,
+          // 2. O fuso horário (timezone) é salvo automaticamente aqui!
+          timezone: prefs.timezone, 
         });
+// ... (o resto da função continua exatamente igual)
       } else if (draft.step === 2) {
         await persistProfile({ opening_hours: draft.hours });
       } else if (draft.step === 3) {
